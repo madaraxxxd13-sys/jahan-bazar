@@ -44,17 +44,26 @@ export default async function StallPage({
         {(products || []).map((p) => (
           <div
             key={p.id}
-            className="bg-card border border-white/10 rounded-2xl p-6"
+            className="bg-card border border-white/10 rounded-2xl overflow-hidden"
           >
-            <h3 className="text-cream font-bold">{p.name}</h3>
-            {p.price && (
-              <div className="font-mono text-goldBright text-sm mt-1">
-                {p.price}
-              </div>
+            {p.image_url && (
+              <img
+                src={p.image_url}
+                alt={p.name}
+                className="w-full h-56 object-cover"
+              />
             )}
-            {p.description && (
-              <p className="text-muted text-sm mt-2">{p.description}</p>
-            )}
+            <div className="p-6">
+              <h3 className="text-cream font-bold">{p.name}</h3>
+              {p.price && (
+                <div className="font-mono text-goldBright text-sm mt-1">
+                  {p.price}
+                </div>
+              )}
+              {p.description && (
+                <p className="text-muted text-sm mt-2">{p.description}</p>
+              )}
+            </div>
           </div>
         ))}
       </div>
