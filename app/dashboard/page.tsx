@@ -139,6 +139,17 @@ export default async function DashboardPage() {
                   className="w-full bg-bg border border-white/10 rounded-lg px-4 py-3 text-cream focus:border-teal outline-none"
                 />
               </div>
+              <div>
+                <label className="block text-sm text-muted mb-2">
+                  عکس محصول (حداکثر ۴ مگابایت)
+                </label>
+                <input
+                  name="image"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="w-full text-sm text-muted"
+                />
+              </div>
               <button className="px-6 py-3 rounded-full bg-goldBright text-bg font-bold">
                 افزودن محصول
               </button>
@@ -152,15 +163,24 @@ export default async function DashboardPage() {
             {products.map((p) => (
               <div
                 key={p.id}
-                className="bg-card border border-white/10 rounded-2xl p-6 flex justify-between items-center"
+                className="bg-card border border-white/10 rounded-2xl p-6 flex justify-between items-center gap-4"
               >
-                <div>
-                  <h4 className="text-cream font-bold">{p.name}</h4>
-                  {p.price && (
-                    <div className="font-mono text-goldBright text-sm mt-1">
-                      {p.price}
-                    </div>
+                <div className="flex items-center gap-4">
+                  {p.image_url && (
+                    <img
+                      src={p.image_url}
+                      alt={p.name}
+                      className="w-16 h-16 rounded-lg object-cover"
+                    />
                   )}
+                  <div>
+                    <h4 className="text-cream font-bold">{p.name}</h4>
+                    {p.price && (
+                      <div className="font-mono text-goldBright text-sm mt-1">
+                        {p.price}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <form action={deleteProduct}>
                   <input type="hidden" name="id" value={p.id} />
