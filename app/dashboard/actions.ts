@@ -31,11 +31,26 @@ export async function addProduct(formData: FormData) {
 
   const price = formData.get("price");
 
+  let imageUrl: string | null = null;
+  const file = formData.get("image");
+  if (file instanceof File && file.size > 0) {
+    const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+    const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
+    const { error } = await supabase.storage
+      .from("images")
+      .upload(path, file, { contentType: file.type });
+    if (!error) {
+      imageUrl = supabase.storage.from("images").getPublicUrl(path).data
+        .publicUrl;
+    }
+  }
+
   await supabase.from("products").insert({
     stall_id: formData.get("stall_id"),
     name: formData.get("name"),
     price: price ? Number(price) : null,
     description: formData.get("description"),
+    image_url: imageUrl,
   });
 
   revalidatePath("/dashboard");
